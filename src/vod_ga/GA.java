@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class GA {
-    static String testUrl = "input.txt";
+    public static String filePath = "https://github.com/ConNguoiThanhThatChemGioPhanPhat/msoLab.git";
     public static Scanner sc;
     public static double mutationRate = 0.1;
     public static double crossoverRate = 0.9;
@@ -147,7 +147,7 @@ public class GA {
     
     private void scanTest(){
         try {
-            sc = new Scanner(new File("DuLieu\\DaTa\\20\\vod_20x10.txt"));
+            sc = new Scanner(new File(filePath));
         } catch (FileNotFoundException ex) {
             System.err.print("File Not Found");
         }
@@ -213,7 +213,7 @@ public class GA {
         	double s = Double.valueOf(args[1]);
         	setServerCost[n] = s;
         	for (int i = 0; i < numberOfProgram; ++i) {
-        		double temp = Double.valueOf(args[i]);
+        		double temp = Double.valueOf(args[i+2]);
         		assignCost[i][n] = temp;
         	}
         }
