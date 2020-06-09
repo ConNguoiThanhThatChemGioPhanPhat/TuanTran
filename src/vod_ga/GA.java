@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class GA {
-    public static String filePath = "https://github.com/ConNguoiThanhThatChemGioPhanPhat/msoLab.git";
+    public static String filePath = "DuLieu\\DATA\\20\\vod_20x10.txt";
     public static Scanner sc;
     public static double mutationRate = 0.1;
     public static double crossoverRate = 0.9;
@@ -224,7 +224,7 @@ public class GA {
 
     public void run(){
     	long starttime = System.currentTimeMillis();
-        scan();
+        scanTest();
         Population pop = new Population();
         pop.init();
         pop.run();
