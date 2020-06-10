@@ -15,12 +15,12 @@ public class Eval {
     private Individual ind;
     private int program;
     private int n = GA.numberOfNodes;
-    Set<Integer> ARes;
+    Set<Integer> ARes = new Set<Integer>();
     double value;
+    double bonus = 0;
     
     Set<Integer> AStar[] = new Set[n];
     Set<Integer> BStar[] = new Set[n];
-    
     double G[] = new double[n];
     double GN[] = new double[n];
     public Eval(Individual ind, int program) {
@@ -52,12 +52,6 @@ public class Eval {
                 GN[i] = B;
             }
             GN[GA.parrent[i]] += GN[i];
-            /////////////////////////////////////////
-            //
-            //WTF GN(w, w') ?????????????????????????
-            //Doublicate cal 2 GN :(((
-            //
-            /////////////////////////////////////////
             if (GN[i] <= C){
                 AStar[i] = BStar[i];
                 G[i] = GN[i];
@@ -74,8 +68,15 @@ public class Eval {
 //            BStar[i].show();
 
         }
-
-        this.ARes = AStar[0];
+        for (int i: GA.child[0]) {
+        	ARes.addSet(AStar[i]);
+        }
+        
+        // debug
+//        String sv = "";
+//        for (int i = 1; i < GA.numberOfNodes; ++i) sv=sv + this.ind.gen[i]+  "  ";
+//        System.out.println(sv);
+//        ARes.show();
         this.value = G[0];
         
     }

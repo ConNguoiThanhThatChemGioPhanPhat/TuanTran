@@ -22,10 +22,10 @@ public class GA {
     public static Scanner sc;
     public static double mutationRate = 0.1;
     public static double crossoverRate = 0.9;
-    public static int popSize = 50;
+    public static int popSize = 2;
     public static Random rd = new Random();
     public static int genSize;
-    public static int converge = 200;
+    public static int converge = 2;
     
     public static byte split = 3; //this var decide the proportion of service
     public static double anpha = 0.5; //proportion of fitness between mom and dad
@@ -225,6 +225,7 @@ public class GA {
     public void run(){
     	long starttime = System.currentTimeMillis();
         scanTest();
+        
         Population pop = new Population();
         pop.init();
         pop.run();
@@ -233,13 +234,25 @@ public class GA {
     }
     
     public static void main(String[] args) {
+    	
         GA ga = new GA();
-        ga.run();
+//        ga.run();
+        
         
 //////////////////////////////////////////////////
-//        ga.scan();
-//        System.err.println("done!");
+        ga.scanTest();
+        System.err.println("done!");
 //        
+        
+        
+///////////////
+  Individual ind = new Individual();
+  ind.init();
+  Eval e = new Eval(ind, 0);
+  e.run();
+  System.out.println(e.value);
+  
+  
 //        Individual ind = new Individual();
 //        ind.gen[0] = 1;
 //        for (int i = 1; i < numberOfNodes; ++i){
@@ -249,5 +262,17 @@ public class GA {
 //        e.run();
 //        System.err.println(e.value);
 //        e.ARes.show();
+        
+        
+/////////////////////////
+        
+//        double rr = 0;
+//        for (int i = 0; i < numberOfNodes; ++i) {
+//        	rr += setServerCost[i];
+//        	for (int j = 0; j < numberOfProgram; ++j) {
+//        		rr += assignCost[j][i];
+//        	}
+//        }
+//        System.out.println(rr);
     }
 }

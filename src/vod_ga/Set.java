@@ -83,7 +83,7 @@ public class Set<E>{
                 tmp = tmp.next;
             }
         }
-        System.out.println("");
+        System.out.println();
         return;
     }
     //Datastructe

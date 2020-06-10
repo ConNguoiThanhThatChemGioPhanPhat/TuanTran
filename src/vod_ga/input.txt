@@ -22,3 +22,5 @@
 0 0 1 0 1 0 1 1 1 0 1 1 
 
 0 1 1 1 0 1 1 1 1 1 1 0
+
+Why linked list java don't have join linked list

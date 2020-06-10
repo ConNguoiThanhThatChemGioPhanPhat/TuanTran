@@ -17,7 +17,13 @@ public class Individual implements Comparable<Individual>{
     private static int n = GA.genSize;
     private static Random rd = new Random();
     private static double p1 = GA.anpha/(GA.anpha + 1)*GA.crossoverRate;
-   
+    private static double bonus = 0;
+    static {
+    	bonus += GA.setServerCost[0];
+    	for (int p = 0; p< GA.numberOfProgram; ++p) {
+    		bonus+= GA.assignCost[p][0];
+    	}
+    }
     byte[] gen = new byte[n];
     private double fitness;
     public LinkedList<Integer> serverSet[];
@@ -50,7 +56,7 @@ public class Individual implements Comparable<Individual>{
             e.run();
             tongThietHai += e.value;
         }
-        this.fitness = tongThietHai;
+        this.fitness = tongThietHai + bonus ;
     }
     
     public double getFitness(){
