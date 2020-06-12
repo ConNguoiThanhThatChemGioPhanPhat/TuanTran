@@ -55,7 +55,7 @@ public class Set<E>{
         ++size;
     }
     
-    public void addSet(Set<? extends E> s) {
+    public void addAll(Set<? extends E> s) {
         if (this == s) {
             throw new RuntimeException("2 List are located same memory");
         }

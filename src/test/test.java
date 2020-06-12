@@ -13,11 +13,15 @@ import java.util.Scanner;
 
 import com.sun.xml.internal.stream.Entity.ScannedEntity;
 
+import vod_ga.GA;
+
 /**
  *
  * @author Admin
  */
 public class test {
+	GA ga = new GA();
+	
     public static void main(String[] args) throws IOException {
 //        wow a = new wow();
 //        Thread t1 = new Thread(new wow());

@@ -18,16 +18,16 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class GA {
-    public static String filePath = "DuLieu\\DATA\\20\\vod_20x10.txt";
+    public static String filePath = "DuLieuNgon\\200\\vod_200x200.txt";
     public static Scanner sc;
     public static double mutationRate = 0.1;
     public static double crossoverRate = 0.9;
-    public static int popSize = 2;
+    public static int popSize = 100;
     public static Random rd = new Random();
     public static int genSize;
-    public static int converge = 2;
+    public static int converge = 500;
     
-    public static byte split = 3; //this var decide the proportion of service
+    public static byte split = 0; //this var decide the proportion of service
     public static double anpha = 0.5; //proportion of fitness between mom and dad
     
     public static LinkedList<Integer> child[];
@@ -144,8 +144,12 @@ public class GA {
         End of Scan
          */
     }
+ 
     
-    private void scanTest(){
+    private int time = 0;
+    public static int mask[] ;
+    public static int unmask[];
+    public void scanTest(){
         try {
             sc = new Scanner(new File(filePath));
         } catch (FileNotFoundException ex) {
@@ -161,6 +165,8 @@ public class GA {
         numberOfProgram = Integer.valueOf(args[1]);
         
         //Init base
+        mask = new int[numberOfNodes];
+        unmask = new int[numberOfNodes];
         parrent = new int[numberOfNodes];
         child = new LinkedList[numberOfNodes];
         for (int i = 0; i < numberOfNodes; ++i) {
@@ -188,8 +194,8 @@ public class GA {
             }
         }
 
-
-        
+        //Mask the tree
+        for (int i =0; i< numberOfNodes; ++i) unmask[mask[i]] = i;
          //Scan request
         sc.nextLine();
         while (true) {
@@ -221,7 +227,6 @@ public class GA {
         End of Scan
          */
     }
-
     public void run(){
     	long starttime = System.currentTimeMillis();
         scanTest();
@@ -232,25 +237,26 @@ public class GA {
         long finishTime = System.currentTimeMillis();
         System.out.print("Execution in : "+ (finishTime - starttime) + " miliseconds");
     }
-    
     public static void main(String[] args) {
     	
         GA ga = new GA();
-//        ga.run();
+        ga.run();
         
         
 //////////////////////////////////////////////////
         ga.scanTest();
-        System.err.println("done!");
+//        System.err.println("done!");
 //        
         
         
 ///////////////
-  Individual ind = new Individual();
-  ind.init();
-  Eval e = new Eval(ind, 0);
-  e.run();
-  System.out.println(e.value);
+//  Individual ind = new Individual();
+//  ind.init();
+//  Eval e = new Eval(ind, 0);
+//  e.run();
+//  ind.setFitness();
+//  System.out.println(ind.getFitness());
+//  System.out.println(e.value);
   
   
 //        Individual ind = new Individual();
@@ -264,8 +270,7 @@ public class GA {
 //        e.ARes.show();
         
         
-/////////////////////////
-        
+/////////////////////////        
 //        double rr = 0;
 //        for (int i = 0; i < numberOfNodes; ++i) {
 //        	rr += setServerCost[i];

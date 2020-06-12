@@ -18,16 +18,19 @@ public class Individual implements Comparable<Individual>{
     private static Random rd = new Random();
     private static double p1 = GA.anpha/(GA.anpha + 1)*GA.crossoverRate;
     private static double bonus = 0;
-    static {
+    {
+    	countBonus();
+    }
+    public double countBonus() {
+    	bonus = 0;
     	bonus += GA.setServerCost[0];
     	for (int p = 0; p< GA.numberOfProgram; ++p) {
     		bonus+= GA.assignCost[p][0];
     	}
+    	return bonus;
     }
     byte[] gen = new byte[n];
     private double fitness;
-    public LinkedList<Integer> serverSet[];
-    
     public void init(){
         rd.nextBytes(gen);
         gen[0] = 1;
@@ -48,15 +51,24 @@ public class Individual implements Comparable<Individual>{
     //
     public void setFitness(){
         double tongThietHai = 0;
+        byte[] temp = new byte[n];
+        temp[0] = 1;
+        
         for (int i = 1; i <n; ++i) if (gen[i] == 1){
+//        	System.out.println(i);
             tongThietHai += GA.setServerCost[i];
         }
         for (int i = 0; i < GA.numberOfProgram ; ++i){
             Eval e = new Eval(this, i);
             e.run();
             tongThietHai += e.value;
+            for (int v : e.ARes) {
+            	temp[v] = 1; 
+            }
         }
-        this.fitness = tongThietHai + bonus ;
+        this.gen = temp;
+        //Update
+        this.fitness = tongThietHai + countBonus();
     }
     
     public double getFitness(){
@@ -65,7 +77,6 @@ public class Individual implements Comparable<Individual>{
     
     public Individual mate(Individual ind){
         Individual child = new Individual();
-        byte[] temp = new byte[n];
         Individual dad, mom;
         if (this.compareTo(ind) >= 0){
             dad = this;
@@ -84,6 +95,7 @@ public class Individual implements Comparable<Individual>{
                 child.gen[i] = (byte)rd.nextInt(2);
             } 
         }
+        child.gen[0] = 1;
         child.setFitness();
         return child;
     }

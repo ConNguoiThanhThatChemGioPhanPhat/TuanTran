@@ -5,6 +5,7 @@
  */
 package vod_ga;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 /**
@@ -15,12 +16,12 @@ public class Eval {
     private Individual ind;
     private int program;
     private int n = GA.numberOfNodes;
-    Set<Integer> ARes = new Set<Integer>();
+    ArrayList<Integer> ARes = new ArrayList<Integer>();
+    ArrayList<Integer> AStar[] = new ArrayList[n];
+    ArrayList<Integer> BStar[] = new ArrayList[n];
+    
     double value;
     double bonus = 0;
-    
-    Set<Integer> AStar[] = new Set[n];
-    Set<Integer> BStar[] = new Set[n];
     double G[] = new double[n];
     double GN[] = new double[n];
     public Eval(Individual ind, int program) {
@@ -28,11 +29,11 @@ public class Eval {
         this.program = program;
     }
     public void run(){
-        AStar[0] = new Set<>();
-        BStar[0] = new Set<>();
+        AStar[0] = new ArrayList();
+        BStar[0] = new ArrayList<Integer>();
         for (int i = n-1; i >0; --i){
-            AStar[i] = new Set<>();
-            BStar[i] = new Set<>();
+            AStar[i] = new ArrayList();
+            BStar[i] = new ArrayList<Integer>();
             double A, B, C;
             A = (ind.gen[i] == 1 ? GA.assignCost[program][i] : Double.POSITIVE_INFINITY) + G[i];
             B = (GA.request[program][i] ? Double.POSITIVE_INFINITY : 0) + GN[i];
@@ -41,13 +42,13 @@ public class Eval {
             //A and B are both finite and infinit
             if (A <= B){
                 for (int c : GA.child[i]){
-                    BStar[i].addSet(AStar[c]);
+                    BStar[i].addAll(AStar[c]);
                 }
                 BStar[i].add(i);
                 GN[i] = A;
             } else {
                 for (int c : GA.child[i]){
-                    BStar[i].addSet(BStar[c]);
+                    BStar[i].addAll(BStar[c]);
                 }
                 GN[i] = B;
             }
@@ -57,7 +58,7 @@ public class Eval {
                 G[i] = GN[i];
             } else {
                 for (int c : GA.child[i]){
-                    AStar[i].addSet(AStar[c]);
+                    AStar[i].addAll(AStar[c]);
                 }
                 G[i] = C;
             }
@@ -69,15 +70,21 @@ public class Eval {
 
         }
         for (int i: GA.child[0]) {
-        	ARes.addSet(AStar[i]);
+        	ARes.addAll(AStar[i]);
         }
-        
+        this.value = G[0];
         // debug
 //        String sv = "";
 //        for (int i = 1; i < GA.numberOfNodes; ++i) sv=sv + this.ind.gen[i]+  "  ";
 //        System.out.println(sv);
 //        ARes.show();
-        this.value = G[0];
+//        String s = "";
+//        for (int i : ARes) {
+//        	s = s +i + " ";
+//        }
+//        System.out.println("program in node : " + s);
+//        System.out.println("cost : "+ G[0]);
+
         
     }
 }
