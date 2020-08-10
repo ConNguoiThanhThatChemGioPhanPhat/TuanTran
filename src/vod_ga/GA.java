@@ -7,6 +7,7 @@ package vod_ga;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.Random;
 import java.util.Scanner;
@@ -18,7 +19,7 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class GA {
-    public static String filePath = "DuLieuNgon\\200\\vod_200x200.txt";
+    public static String filePath = "DuLieuNgon\\20\\vod_20x5.txt";
     public static Scanner sc;
     public static double mutationRate = 0.1;
     public static double crossoverRate = 0.9;
@@ -39,7 +40,9 @@ public class GA {
     public static int numberOfNodes;
     public static int numberOfEdges;
     public static int numberOfProgram;
-
+    
+    public static long runtime;
+    public static double fitness;
     /*
     nodes  = [0.1.......N]
     program = [0......p]
@@ -235,49 +238,19 @@ public class GA {
         pop.init();
         pop.run();
         long finishTime = System.currentTimeMillis();
-        System.out.print("Execution in : "+ (finishTime - starttime) + " miliseconds");
+        fitness = pop.pop.get(0).getFitness();
+        runtime = finishTime - starttime;
+//        System.out.print("Execution in : "+ (finishTime - starttime) + " miliseconds");
     }
     public static void main(String[] args) {
+//    	filePath = args[0];
+//    	try {
+//			System.setOut(new PrintStream(args[1]));
+//		} catch (FileNotFoundException e) {
+//			e.printStackTrace();
+//		}
     	
         GA ga = new GA();
         ga.run();
-        
-        
-//////////////////////////////////////////////////
-        ga.scanTest();
-//        System.err.println("done!");
-//        
-        
-        
-///////////////
-//  Individual ind = new Individual();
-//  ind.init();
-//  Eval e = new Eval(ind, 0);
-//  e.run();
-//  ind.setFitness();
-//  System.out.println(ind.getFitness());
-//  System.out.println(e.value);
-  
-  
-//        Individual ind = new Individual();
-//        ind.gen[0] = 1;
-//        for (int i = 1; i < numberOfNodes; ++i){
-//            ind.gen[i] = sc.nextByte();
-//        }
-//        Eval e = new Eval(ind, 0);
-//        e.run();
-//        System.err.println(e.value);
-//        e.ARes.show();
-        
-        
-/////////////////////////        
-//        double rr = 0;
-//        for (int i = 0; i < numberOfNodes; ++i) {
-//        	rr += setServerCost[i];
-//        	for (int j = 0; j < numberOfProgram; ++j) {
-//        		rr += assignCost[j][i];
-//        	}
-//        }
-//        System.out.println(rr);
     }
 }

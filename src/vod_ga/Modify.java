@@ -95,7 +95,7 @@ public class Modify {
 			}
 			bw.close();
 		} catch (IOException e) {
-			
+			System.out.println(e);
 		}
 		
 	}
@@ -120,9 +120,9 @@ public class Modify {
 		mod();
 	}
 	public static void main(String[] args) {
-		String fileName = "vod_200x50.txt";
-		String src = "DuLieu\\DATA\\200\\";
-		String dt = "DuLieuNgon\\200\\";
+		String fileName = "vod_150x200.txt";
+		String src = "DuLieu\\DATA\\150\\";
+		String dt = "DuLieuNgon\\150\\";
 		Modify md = new Modify(src + fileName, dt + fileName, new GA());
 	}
 }

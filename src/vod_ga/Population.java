@@ -32,8 +32,31 @@ public class Population {
             }
             Collections.sort(temp);
             pop = new ArrayList<> (temp.subList(0, n));
-            System.out.println("Gen "+ generation+ " : "+  pop.get(0).getFitness());
+            System.out.println(generation+ " "+  pop.get(0).getFitness());
         }
         
+        //////////////////////////////////
+        //////
+        ////// Print cau hinh
+        //////
+        //////////////////////////////////
+//        Individual best = pop.get(0);
+//        byte[] temp = new byte[n];
+//        temp[0] = 1;
+//        for (int i = 0; i < GA.numberOfProgram ; ++i){
+//            Eval e = new Eval(best, i);
+//            e.run();
+//            String res = "Program " + (i + 1) + " :";
+//            Collections.sort(e.ARes);
+//            for (int v : e.ARes) {
+//            	temp[v] = 1; 
+//            	res = res + " " + v;
+//            }
+//            System.out.println(res);
+//        }
+//        System.out.println("Best : " + pop.get(0).getFitness());
+        
+        /////////////////////////
+        /////    End of print
     }
 }
