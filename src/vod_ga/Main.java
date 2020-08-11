@@ -22,7 +22,7 @@ public class Main {
 		type.put(4, "Type2_Large");
 		
 //		int k = 1;
-		for (int k = 1; k <= 1; ++k) {
+		for (int k = 1; k <= 4; ++k) {
 			String i = (String) type.get(k);
 			File folder = new File("ModData\\"+i);
 			File[] listOfFiles = folder.listFiles();
