@@ -15,25 +15,22 @@ public class Main {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		String fileName = "vod_20x10";
 		Dictionary type = new Hashtable();
-		type.put(1, "20");
-		type.put(2, "50");
-		type.put(3, "100");
-		type.put(4, "150");
-		type.put(5, "200");
+		type.put(1, "Type1");
+		type.put(2, "Type2");
+		type.put(3, "Type1_Large");
+		type.put(4, "Type2_Large");
 		
 //		int k = 1;
-		for (int k = 2; k <= 2; ++k) {
+		for (int k = 1; k <= 1; ++k) {
 			String i = (String) type.get(k);
-	//		GA.filePath = "DuLieuNgon\\" + i + "\\" + fileName +".txt";
-			File folder = new File("DuLieu\\DATA\\"+i);
+			File folder = new File("ModData\\"+i);
 			File[] listOfFiles = folder.listFiles();
 			for (File ff : listOfFiles) {
-				fileName = (ff.getName().replaceFirst("[.][^.]+$", ""));
+				String fileName = (ff.getName().replaceFirst("[.][^.]+$", ""));
 				for (int it = 0; it < 30; ++it) {
-					String fileOut = "Result\\Type"+k+"\\" + fileName + "\\" + fileName +"_seed_" + it+ ".txt";
-					File f = new File("Result\\Type"+k+"\\" + fileName);
+					String fileOut = "NewResult\\"+ i+ "\\" + fileName + "\\" + fileName +"_seed_" + it+ ".txt";
+					File f = new File("NewResult\\"+i+"\\" + fileName);
 					f.mkdirs();
 					PrintStream fo;
 					try {
@@ -45,10 +42,10 @@ public class Main {
 					}
 					System.out.println("Generations "+ fileName);
 				// Run GA here
-					GA.filePath = "DuLieuNgon\\" + i + "\\" + fileName + ".txt";
+					GA.filePath = "ModData\\"+i+"\\" + fileName + ".txt";
 					GA ga = new GA();
 					ga.run();
-					fileOut = "Result\\Type"+k+"\\" + fileName + "\\" + fileName +"_seed_" + it+ ".opt";
+					fileOut = "NewResult\\"+ i+ "\\" + fileName + "\\" + fileName +"_seed_" + it+ ".opt";
 					try {
 						fo = new PrintStream(fileOut);
 						System.setOut(fo);
@@ -62,10 +59,16 @@ public class Main {
 					System.out.println("Time: " + GA.runtime);
 
 					System.err.println("Type " + k + " : " +  fileName+ " " + it);
+					
+					
+//					Modify data
+//					String src = "NewData\\"+i+"\\" + fileName + ".txt";
+//					String fileOut = "ModData\\"+i+"\\" + fileName + ".txt";
+//					Modify md = new Modify(src, fileOut, new GA());
 				}
 			}
-			String st = "OK";
-			JOptionPane.showMessageDialog(null, st);
 		}
+		String st = "Vod OK";
+		JOptionPane.showMessageDialog(null, st);
 	}
 }	

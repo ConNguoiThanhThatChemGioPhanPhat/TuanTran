@@ -33,7 +33,7 @@ public class Modify {
 		for (int v : adj[u]) if (!duyet[v]){
 			duyet[u] = true;
 			dfs(v);
-//			System.out.println(u+ " " + v);
+			System.out.println(u+ " " + v);
 		}
 	}
 	private void scan() {
@@ -74,16 +74,21 @@ public class Modify {
 		try {
 			bw = new BufferedWriter(fw);
 			bw.write(ga.numberOfNodes+ " "+ ga.numberOfProgram + "\n");
-			bw.write("NETWORK_TREE :\r\n" );
+			bw.write("TREE NETWORK (nID nID Weight):\r\n" );
 			for (int i = 0; i < ga.numberOfEdges; ++i) {
 				bw.write(ga.mask[t1[i]] + " " + ga.mask[t2[i]] + " " + band[i] +" \n");
 			}
-			bw.write("NODE_PROGRAM :\r\n" );
+			bw.write("PROGRAMS ASSIGNED TO NODES (nID pID1 pID2 ...):\r\n" );
 			for (int i = 0; i < ga.numberOfNodes; ++i) {
 				bw.write(ga.mask[i]+ " ");
 				for (int j = 0; j < ga.numberOfProgram; ++j) {
 					if (ga.request[j][i]) bw.write((j+1) + " ");
 				}
+				bw.write(" \n");
+			}
+			bw.write("SIZE OF PROGRAMS (pID SIZE):\r\n" );
+			for (int i = 1; i <= ga.numberOfProgram; ++i) {
+				bw.write(i + " " + ga.programSize[i-1]);
 				bw.write(" \n");
 			}
 			bw.write("COST_INSTALL_SERVER_AND_PROGRAMS :\r\n");
@@ -97,7 +102,7 @@ public class Modify {
 		} catch (IOException e) {
 			System.out.println(e);
 		}
-		
+
 	}
 	public Modify(String filePath, String dest, GA ga) {
 		this.filePath = filePath;
@@ -120,9 +125,9 @@ public class Modify {
 		mod();
 	}
 	public static void main(String[] args) {
-		String fileName = "vod_150x200.txt";
-		String src = "DuLieu\\DATA\\150\\";
-		String dt = "DuLieuNgon\\150\\";
+		String fileName = "vod_20x10.txt";
+		String src = "NewData\\\\Type1\\";
+		String dt = "ModData\\Type1\\";
 		Modify md = new Modify(src + fileName, dt + fileName, new GA());
 	}
 }

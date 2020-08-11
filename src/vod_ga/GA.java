@@ -19,14 +19,14 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class GA {
-    public static String filePath = "DuLieuNgon\\20\\vod_20x5.txt";
+    public static String filePath = "ModData\\Type1\\vod_20x10.txt";
     public static Scanner sc;
     public static double mutationRate = 0.1;
     public static double crossoverRate = 0.9;
     public static int popSize = 100;
     public static Random rd = new Random();
     public static int genSize;
-    public static int converge = 500;
+    public static int converge = 300;
     
     public static byte split = 0; //this var decide the proportion of service
     public static double anpha = 0.5; //proportion of fitness between mom and dad
@@ -37,6 +37,8 @@ public class GA {
     public static double[][] bandwidthCost;
     public static double[] setServerCost;
     public static boolean[] request[];
+    public static double[] programSize;
+    
     public static int numberOfNodes;
     public static int numberOfEdges;
     public static int numberOfProgram;
@@ -179,6 +181,7 @@ public class GA {
         bandwidthCost = new double[numberOfProgram][numberOfNodes];
         setServerCost = new double[numberOfNodes];
         request = new boolean[numberOfProgram][numberOfNodes];
+        programSize = new double[numberOfProgram];
         //Scan tree and weight
         sc.nextLine();
         for (int i = 0; i < numberOfEdges; ++i) {
@@ -215,6 +218,21 @@ public class GA {
         	}
         }
         
+        
+        // Scan size of program 
+//        sc.nextLine();
+        while (true) {
+        	args = sc.nextLine().split(" ");
+        	if(!isNumeric(args[0])) {
+//        		System.out.println(args[0]);
+        		break;
+        	}
+//        	System.out.println(args[0]);
+        	int n = Integer.valueOf(args[0]);
+        	double s = Double.valueOf(args[1]);
+        	programSize[n-1] = s;
+        }
+        
         //Scan setServerCost and assign program
         while (sc.hasNext()) {
         	args = sc.nextLine().split(" ");
@@ -224,16 +242,27 @@ public class GA {
         	for (int i = 0; i < numberOfProgram; ++i) {
         		double temp = Double.valueOf(args[i+2]);
         		assignCost[i][n] = temp;
+//        		System.out.println(temp);
         	}
         }
         /*
         End of Scan
          */
+        
     }
     public void run(){
     	long starttime = System.currentTimeMillis();
         scanTest();
-        
+//		System.out.println("-------------------------------------------");
+        /*
+         * apply bandwidth cost
+         */
+        for (int i = 1; i < numberOfNodes; ++i) {
+            for (int j = 0; j < numberOfProgram; ++j){
+                bandwidthCost[j][i] = programSize[j]/bandwidthCost[j][i];
+//                System.out.println("Node " + i + " pr " + j + " : " + bandwidthCost[j][i]);
+            }
+        }
         Population pop = new Population();
         pop.init();
         pop.run();
@@ -242,15 +271,9 @@ public class GA {
         runtime = finishTime - starttime;
 //        System.out.print("Execution in : "+ (finishTime - starttime) + " miliseconds");
     }
-    public static void main(String[] args) {
-//    	filePath = args[0];
-//    	try {
-//			System.setOut(new PrintStream(args[1]));
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		}
-    	
+    public static void main(String[] args) {    	
         GA ga = new GA();
         ga.run();
+    	ga.scanTest();
     }
 }
