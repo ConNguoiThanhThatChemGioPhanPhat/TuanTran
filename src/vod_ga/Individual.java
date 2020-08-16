@@ -14,10 +14,10 @@ import java.util.Random;
  * @author Admin
  */
 public class Individual implements Comparable<Individual>{
-    private static int n = GA.genSize;
-    private static Random rd = new Random();
-    private static double p1 = GA.anpha/(GA.anpha + 1)*GA.crossoverRate;
+    private int n = GA.genSize;
     private static double bonus = 0;
+    byte[] gen = new byte[n];
+    private double fitness;
     {
     	countBonus();
     }
@@ -29,15 +29,17 @@ public class Individual implements Comparable<Individual>{
     	}
     	return bonus;
     }
-    byte[] gen = new byte[n];
-    private double fitness;
-    public void init(){
-        rd.nextBytes(gen);
+    public void show() {
+    	for (int i = 0; i < n; ++i) {
+    		System.out.print(gen[i]+ " ");
+    	}
+    	System.out.println();
+    }
+    public void init(Random rd){
         gen[0] = 1;
         for (int i = 1; i < n; ++i){
-           gen[i] = (byte) (gen[i] <= GA.split ? 0 : 1);           
+           gen[i] = (byte) (rd.nextInt(2));           
         }
-        
         this.setFitness();
     }
     @Override
@@ -73,30 +75,5 @@ public class Individual implements Comparable<Individual>{
     
     public double getFitness(){
         return this.fitness;
-    }
-    
-    public Individual mate(Individual ind){
-        Individual child = new Individual();
-        Individual dad, mom;
-        if (this.compareTo(ind) >= 0){
-            dad = this;
-            mom = ind;
-        }  else {
-            dad = ind;
-            mom = this;
-        }
-        for(int i = 1; i < n; ++i){
-            double p = rd.nextDouble();
-            if (p < p1){
-                child.gen[i] = dad.gen[i];
-            } else if (p < GA.crossoverRate){
-                child.gen[i] = mom.gen[i];
-            } else {
-                child.gen[i] = (byte)rd.nextInt(2);
-            } 
-        }
-        child.gen[0] = 1;
-        child.setFitness();
-        return child;
     }
 }

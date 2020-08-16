@@ -19,12 +19,12 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class GA {
-    public static String filePath = "ModData\\Type1\\vod_20x10.txt";
+    public static String filePath = "DataOut\\Type1\\vod_20x10.txt";
     public static Scanner sc;
-    public static double mutationRate = 0.1;
+    public static double mutationRate = 0.05;
     public static double crossoverRate = 0.9;
     public static int popSize = 100;
-    public static Random rd = new Random();
+    public static int SEED = 0;
     public static int genSize;
     public static int converge = 300;
     
@@ -43,8 +43,8 @@ public class GA {
     public static int numberOfEdges;
     public static int numberOfProgram;
     
-    public static long runtime;
-    public static double fitness;
+    public long runtime;
+    public double fitness;
     /*
     nodes  = [0.1.......N]
     program = [0......p]
@@ -250,19 +250,21 @@ public class GA {
          */
         
     }
-    public void run(){
-    	long starttime = System.currentTimeMillis();
-        scanTest();
-//		System.out.println("-------------------------------------------");
-        /*
-         * apply bandwidth cost
-         */
+    public void mod() {
         for (int i = 1; i < numberOfNodes; ++i) {
             for (int j = 0; j < numberOfProgram; ++j){
                 bandwidthCost[j][i] = programSize[j]/bandwidthCost[j][i];
 //                System.out.println("Node " + i + " pr " + j + " : " + bandwidthCost[j][i]);
             }
         }
+    }
+    public void run(int seed){
+    	long starttime = System.currentTimeMillis();
+//		System.out.println("-------------------------------------------");
+        /*
+         * apply bandwidth cost
+         */
+    	GA.SEED = seed;
         Population pop = new Population();
         pop.init();
         pop.run();
@@ -273,7 +275,8 @@ public class GA {
     }
     public static void main(String[] args) {    	
         GA ga = new GA();
-        ga.run();
-    	ga.scanTest();
+        ga.scanTest();
+        ga.mod();
+        ga.run(0);
     }
 }
