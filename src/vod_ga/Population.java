@@ -69,23 +69,19 @@ public class Population {
   		return off_spring;
     }
     public Individual  mutation(Individual id) {
-       Individual  child = new Individual();
-//     Copy gen
-       for (int i=0; i<genSize; i++) {   
-           child.gen[i] = id.gen[i];
-       }
        // Dot bien 4 gen trong gen bo
-       for (int i= 0; i< 4; ++i) {
+       for (int i= 0; i< GA.mutGen; ++i) {
     	   int p = rd.nextInt(genSize);
-    	   child.gen[i] =(byte) (1 - child.gen[i]);
+    	   id.gen[p] =(byte) (1 - id.gen[p]);
        }
-       child.setFitness();
-       return child;
+       id.setFitness();
+       return id;
     }
     public void run(){       
         for (int generation = 0; generation < GA.converge; ++ generation){
             ArrayList<Individual> temp = new ArrayList<>(pop);
             int k = n<<1;
+            double r;
             while (temp.size() < k) {
             	int id1 = 0; 
             	int id2 = 0;
@@ -93,15 +89,17 @@ public class Population {
             		id1 = rd.nextInt(n);
             		id2 = rd.nextInt(n);
             	}
-            	double r = rd.nextDouble();
+            	r = rd.nextDouble();
             	if (r < GA.crossoverRate) {
             		Individual par1 = pop.get(id1);         
             		Individual par2 = pop.get(id2);
-            		temp.addAll(crossover(par1, par2));
-            	}
-            	if (r < GA.mutationRate) {
-            		Individual child = mutation(pop.get(id1));
-            		temp.add(child);
+            		ArrayList<Individual> offspring = crossover(par1, par2);
+            		r = rd.nextDouble();
+                	if (r < GA.mutationRate) {
+                		mutation(offspring.get(0));
+                		mutation(offspring.get(1));
+                	}
+                	temp.addAll(offspring);
             	}
             }
             Collections.sort(temp);

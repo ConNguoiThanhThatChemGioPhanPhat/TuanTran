@@ -96,21 +96,21 @@ public class Main {
 		}
 		
 	}
-	public static void run() {
+	public static void run(int startSeed, int endSeed) {
 		File file = new File("DataOut");
-		for (File subtest: file.listFiles()) {
-			String i = subtest.getName();
-			File folder = new File("DataOut\\"+i);
-			File[] listOfFiles = folder.listFiles();
-			for (File ff : listOfFiles) {
-				String fileName = (ff.getName().replaceFirst("[.][^.]+$", ""));
-				GA ga = new GA();
-				GA.filePath = "DataOut\\"+i+"\\" + fileName + ".txt";
-				ga.scanTest();
-				ga.mod();
-				File f = new File("Result\\"+i+"\\" + fileName);
-				f.mkdirs();
-				for (int it = 0; it < 30; ++it) {
+		for (int it = 0; it < 30; ++it) {
+			for (File subtest: file.listFiles()) {
+				String i = subtest.getName();
+				File folder = new File("DataOut\\"+i);
+				File[] listOfFiles = folder.listFiles();
+				for (File ff : listOfFiles) {
+					String fileName = (ff.getName().replaceFirst("[.][^.]+$", ""));
+					GA ga = new GA();
+					GA.filePath = "DataOut\\"+i+"\\" + fileName + ".txt";
+					ga.scanTest();
+					ga.mod();
+					File f = new File("Result\\"+i+"\\" + fileName);
+					f.mkdirs();
 					String fileOut = "Result\\"+ i+ "\\" + fileName + "\\" + fileName +"_seed_" + it+ ".txt";
 					PrintStream fo;
 					try {
@@ -145,9 +145,12 @@ public class Main {
 	public static void main(String[] args) {
 		System.err.println(args[0]);
 		String testDir = args[0];
-		Main.modify(testDir);
-		Main.getMax();
-		run();
+		int startSeed = Integer.valueOf(args[1]);
+		int endSeed = Integer.valueOf(args[2]);
+		
+//		Main.modify(testDir);
+//		Main.getMax();
+		run(startSeed, endSeed);
 		String st = "Vod OK";
 		JOptionPane.showMessageDialog(null, st);
 	}

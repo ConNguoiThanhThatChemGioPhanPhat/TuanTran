@@ -21,7 +21,8 @@ import java.util.logging.Logger;
 public class GA {
     public static String filePath = "DataOut\\Type1\\vod_20x10.txt";
     public static Scanner sc;
-    public static double mutationRate = 0.05;
+    public static int mutGen = 4;
+    public static double mutationRate = 0.2;
     public static double crossoverRate = 0.9;
     public static int popSize = 100;
     public static int SEED = 0;

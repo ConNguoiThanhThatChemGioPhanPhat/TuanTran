@@ -55,11 +55,6 @@ public class Individual implements Comparable<Individual>{
         double tongThietHai = 0;
         byte[] temp = new byte[n];
         temp[0] = 1;
-        
-        for (int i = 1; i <n; ++i) if (gen[i] == 1){
-//        	System.out.println(i);
-            tongThietHai += GA.setServerCost[i];
-        }
         for (int i = 0; i < GA.numberOfProgram ; ++i){
             Eval e = new Eval(this, i);
             e.run();
@@ -67,6 +62,10 @@ public class Individual implements Comparable<Individual>{
             for (int v : e.ARes) {
             	temp[v] = 1; 
             }
+        }
+        for (int i = 1; i <n; ++i) if (gen[i] == 1){
+//        	System.out.println(i);
+            tongThietHai += GA.setServerCost[i];
         }
         this.gen = temp;
         //Update
