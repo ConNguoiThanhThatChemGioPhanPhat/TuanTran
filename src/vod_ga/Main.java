@@ -147,9 +147,9 @@ public class Main {
 		String testDir = args[0];
 		int startSeed = Integer.valueOf(args[1]);
 		int endSeed = Integer.valueOf(args[2]);
-		
-//		Main.modify(testDir);
-//		Main.getMax();
+//		
+		Main.modify(testDir);
+		Main.getMax();
 		run(startSeed, endSeed);
 		String st = "Vod OK";
 		JOptionPane.showMessageDialog(null, st);

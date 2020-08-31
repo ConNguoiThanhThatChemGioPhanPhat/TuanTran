@@ -59,6 +59,22 @@ public class Individual implements Comparable<Individual>{
             Eval e = new Eval(this, i);
             e.run();
             tongThietHai += e.value;
+        }
+        for (int i = 1; i <n; ++i) if (gen[i] == 1){
+//        	System.out.println(i);
+            tongThietHai += GA.setServerCost[i];
+        }
+        //Update
+        this.fitness = tongThietHai + countBonus();
+    }
+    public void hotSetFitness(){
+        double tongThietHai = 0;
+        byte[] temp = new byte[n];
+        temp[0] = 1;
+        for (int i = 0; i < GA.numberOfProgram ; ++i){
+            Eval e = new Eval(this, i);
+            e.hotRun();
+            tongThietHai += e.value;
             for (int v : e.ARes) {
             	temp[v] = 1; 
             }

@@ -19,15 +19,16 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class GA {
-    public static String filePath = "DataOut\\Type1\\vod_20x10.txt";
+    public static String filePath = "DataOut\\Type2_Large\\vod_900x500.txt";
     public static Scanner sc;
-    public static int mutGen = 4;
-    public static double mutationRate = 0.2;
+    public static int mutGen = 10;
+    public static int updateStep = 20;
+    public static double mutationRate = 0.05;
     public static double crossoverRate = 0.9;
     public static int popSize = 100;
     public static int SEED = 0;
     public static int genSize;
-    public static int converge = 300;
+    public static int converge = 500;
     
     public static byte split = 0; //this var decide the proportion of service
     public static double anpha = 0.5; //proportion of fitness between mom and dad
@@ -258,6 +259,7 @@ public class GA {
 //                System.out.println("Node " + i + " pr " + j + " : " + bandwidthCost[j][i]);
             }
         }
+        GA.setServerCost[0] = 0;
     }
     public void run(int seed){
     	long starttime = System.currentTimeMillis();

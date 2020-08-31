@@ -8,6 +8,7 @@ package vod_ga;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
+import java.util.Stack;
 
 
 /**
@@ -68,6 +69,50 @@ public class Population {
         off_spring.add(child2);
   		return off_spring;
     }
+    public ArrayList<Individual>  treeCrossover(Individual id1, Individual id2){
+        Individual  child1 = new Individual();
+        Individual child2 = new Individual();
+        /////////////////////////////////////////
+        Stack<Integer> stack = new Stack<Integer>();
+        int kount = 0;
+        boolean[] duyet = new boolean[GA.genSize];
+        double upper = 0.5*GA.genSize;
+        int r, temp;
+        // Copy gen tu cha me xuong con
+        for (int i =0; i <GA.genSize; ++i) {
+        	child1.gen[i] = id1.gen[i];
+        	child2.gen[i] = id2.gen[i];
+        }
+        while (kount < upper) {
+        	r = rd.nextInt(GA.genSize);
+        	if (duyet[r]) continue;
+        	duyet[r] = true;
+        	++ kount;
+        	Stack<Integer> st = new Stack<Integer>();
+        	st.add(r);
+        	while (!st.empty()) {
+        		temp = st.pop();
+        		duyet[temp] = true;
+        		++ kount;
+        		child1.gen[temp] = id2.gen[temp];
+        		child2.gen[temp] = id1.gen[temp];
+        		for (int c: GA.child[temp]) {
+        			st.push(c);
+        		}
+        	}
+        }
+        
+        /////////////////////////////////////////
+        
+        child1.gen[0] = 1;
+        child2.gen[0] = 1;
+        child1.setFitness();
+        child2.setFitness();
+        ArrayList<Individual> off_spring = new ArrayList<Individual>();
+        off_spring.add(child1);
+        off_spring.add(child2);
+  		return off_spring;
+    }
     public Individual  mutation(Individual id) {
        // Dot bien 4 gen trong gen bo
        for (int i= 0; i< GA.mutGen; ++i) {
@@ -93,11 +138,18 @@ public class Population {
             	if (r < GA.crossoverRate) {
             		Individual par1 = pop.get(id1);         
             		Individual par2 = pop.get(id2);
-            		ArrayList<Individual> offspring = crossover(par1, par2);
+            		ArrayList<Individual> offspring;
+        
+        			offspring = crossover(par1, par2);
+
             		r = rd.nextDouble();
                 	if (r < GA.mutationRate) {
                 		mutation(offspring.get(0));
                 		mutation(offspring.get(1));
+                	}
+                	if (generation%GA.updateStep == 0) {
+                		offspring.get(0).hotSetFitness();
+                		offspring.get(1).hotSetFitness();
                 	}
                 	temp.addAll(offspring);
             	}
